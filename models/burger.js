@@ -8,6 +8,7 @@ let burger = {
     },
     insertOne: function(cols, vals, cb){
         orm.insertOne('burgers', cols, vals, (res)=>{
+            console.log("model works", res);
             cb(res);
         });
     },

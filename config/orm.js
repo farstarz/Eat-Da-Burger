@@ -46,27 +46,33 @@ let orm = {
         });
     },
     // function to insert one row
-    insertOne: function(table, cols, values, cb){
-        let query = 'INSERT INTO'+ table;
-        query += '(';
-        query += cols.toString();
-        query += ') VALUES(';
-        query += printQuestionMarks(vals.length);
-        query += ') ';
+    insertOne: function(table, cols, vals, cb){
+        var query = "INSERT INTO " + table;
 
-        connection.query(query, (err, data)=>{
+        query += " (";
+        query += cols.toString();
+        query += ") ";
+        query += "VALUES (";
+        query += printQuestionMarks(vals.length);
+        query += ") ";
+
+        console.log(query);
+        connection.query(query, vals, (err, data)=>{
             if(err) throw err;
+            console.log("orm works", data);
             cb(data);
         });
     },
     // function to update one row
     updateOne: function(table, objColVals, condition, cb){
         let query = 'UPDATE '+table;
-        query += ' SET';
-        query += objColVals.objToSql();
-        query += ' WHERE';
+        query += ' SET ';
+        query += objToSql(objColVals);
+        query += ' WHERE ';
         query += condition;
-
+        query += ';';
+        
+        console.log(query);
         connection.query(query, (err, data)=>{
             if(err) throw err;
             cb(data);
